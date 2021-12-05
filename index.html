@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <script>
+      (async () => {
+        // const iceServers = [{ urls: "stun:stun.l.google.com:19302" }];
+        const iceServers = [{ urls: "stun:localhost:3478" }];
+        // const iceServers = [{ urls: "stun:yaox023.com:3478" }];
+        const pc = new RTCPeerConnection({ iceServers });
+
+        pc.createDataChannel("");
+
+        pc.onicecandidate = (ice) => {
+          if (!ice.candidate) return;
+          console.log(ice.candidate.address);
+        };
+
+        const offer = await pc.createOffer();
+        await pc.setLocalDescription(offer);
+      })();
+    </script>
+  </body>
+</html>
